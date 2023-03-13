@@ -1,6 +1,7 @@
 package report;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
@@ -8,6 +9,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
@@ -52,14 +54,33 @@ public class PdfReport {
         pageContent.beginText();
         pageContent.setFontAndSize(baseFont, 6);
         pageContent.setTextMatrix(360,707);
-        pageContent.showText(billingYearMonth.getMonth().getDisplayName(style, spanishLocal) + " " + year);
+        String textMonth = billingYearMonth.getMonth().getDisplayName(style, spanishLocal);
+        String capitalizedTextMonth = textMonth.substring(0, 1).toUpperCase() + textMonth.substring(1);
+        pageContent.showText(capitalizedTextMonth + " " + year);
         pageContent.endText();
         //futter
+        int lastWorkingDay;
+        LocalDate lastWorkingDayDate = billingYearMonth.atDay(billingYearMonth.atEndOfMonth().getDayOfMonth());
+        if (lastWorkingDayDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+            lastWorkingDayDate.minusDays(1);
+        }else if (lastWorkingDayDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+            lastWorkingDayDate.minusDays(2);
+        }
+        lastWorkingDay = lastWorkingDayDate.getDayOfMonth();
+
         pageContent.beginText();
         pageContent.setFontAndSize(baseFont, 6);
         pageContent.setTextMatrix(63,306);
-        pageContent.showText("En________Valencia_______________, a __" + billingYearMonth.atEndOfMonth().getDayOfMonth() + "__ de __" + billingYearMonth.getMonth().getDisplayName(style, spanishLocal) + "__ de " + year);
+        pageContent.showText("En Valencia, a " + lastWorkingDay + " de " + billingYearMonth.getMonth().getDisplayName(style, spanishLocal) + " de " + year);
         pageContent.endText();
+
+        //signature
+        Image signature = Image.getInstance("src/main/FilesRepository/signatures/" + id + ".png");
+        signature.setAbsolutePosition(385, 330);
+        signature.scaleAbsolute(60,30);
+        pageContent.addImage(signature);
+
+
 
         int yCoordinate = 672;
         List<Integer> weekEnds = BillingPeriod.getWeekEnds(month,year);

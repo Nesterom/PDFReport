@@ -59,7 +59,9 @@ public class BillingPeriod {
                             && types.contains("Public"))
                             && (isGlobal || (!isGlobal && counties.contains("ES-VC")))){
                         result.add(date.getDayOfMonth());
+
                     }
+
                 }
             }
 

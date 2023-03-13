@@ -9,8 +9,7 @@ import java.io.IOException;
 @SpringBootApplication
 public class Test {
     public static void main(String[] args) throws IOException, InvalidFormatException, DocumentException {
-        SpringApplication.run(Test.class);
- //       System.out.println(EmployeesList.getList());
+              SpringApplication.run(Test.class);
 
 
 
