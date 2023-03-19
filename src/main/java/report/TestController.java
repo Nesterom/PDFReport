@@ -10,9 +10,8 @@ import java.util.HashMap;
 
 @RestController
 public class TestController {
-//    private ArrayList<HashMap> listAll = new ArrayList<>(EmployeesList.getList());
 
-    public class TestResponse {
+    public static class TestResponse {
         private ArrayList<HashMap> allEmployes = new ArrayList<>();
 
         public ArrayList<HashMap> getAllEmployes() {
@@ -23,13 +22,13 @@ public class TestController {
             this.allEmployes = param2;
         }
     }
+
     @RequestMapping(value = "hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public TestResponse testMethod (){
+    public TestResponse testMethod() {
         TestResponse result = new TestResponse();
         result.setAllEmployes(EmployeesList.getList());
         return result;
     }
-
 
 
 }

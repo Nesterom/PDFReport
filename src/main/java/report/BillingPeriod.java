@@ -35,6 +35,10 @@ public class BillingPeriod {
     public static List<Integer> getPublickHollidaysNew (int month, int year){
         YearMonth billingMonthYear = YearMonth.of(year,month);
         List<Integer> result = new ArrayList<>();
+      //very specific holliday not specify in any of the APIs
+        if (month==4){
+            result.add(17);
+        }
 
         try  {
             String address = "https://date.nager.at/api/v3/publicholidays/" + year + "/ES";

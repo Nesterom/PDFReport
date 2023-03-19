@@ -1,6 +1,7 @@
 package report;
 
-@Deprecated public class Employee {
+@Deprecated
+public class Employee {
     private String name;
     private String surname;
     private String personalNumber;
@@ -17,15 +18,15 @@ package report;
         personalNumber = p;
     }
 
-    public String getName () {
+    public String getName() {
         return name;
     }
 
-    public String getSurname () {
+    public String getSurname() {
         return surname;
     }
 
-    public String getPersonalNumber () {
+    public String getPersonalNumber() {
         return personalNumber;
     }
 

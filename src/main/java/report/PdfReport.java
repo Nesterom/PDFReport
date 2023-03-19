@@ -19,13 +19,17 @@ import java.util.Locale;
 
 public class PdfReport {
     static String pathPdf = "src/main/FilesRepository/PLANTILLA REGISTRO JORNADA EMPTY.pdf";
-    static String pathPdfFilled = "src/main/FilesRepository/PLANTILLA REGISTRO JORNADA FILLED.pdf";
 
-    public static void generateReport (int id, int month, int year, ArrayList<Integer> vocationList) throws IOException, DocumentException {
+    public static void generateReport(int id, int month, int year, ArrayList<Integer> vocationList) throws IOException, DocumentException {
         Locale spanishLocal = new Locale("es", "ES");
         TextStyle style = TextStyle.FULL;
         Integer totalHours = 0;
         YearMonth billingYearMonth = YearMonth.of(year, month);
+        String pathPdfFilled = "src/main/FilesRepository/PLANTILLA REGISTRO JORNADA "
+                                + EmployeesList.getNameSurnameById(id)
+                                + " "
+                                + billingYearMonth.getMonth().getDisplayName(style, spanishLocal)
+                                + ".pdf";
 
         PdfReader pdfReader = new PdfReader(pathPdf);
         PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileOutputStream(pathPdfFilled));
@@ -35,25 +39,25 @@ public class PdfReport {
         //Name surname
         pageContent.beginText();
         pageContent.setFontAndSize(baseFont, 6);
-        pageContent.setTextMatrix(360,734);
+        pageContent.setTextMatrix(360, 734);
         pageContent.showText(EmployeesList.getNameSurnameById(id));
         pageContent.endText();
         //NIF
         pageContent.beginText();
         pageContent.setFontAndSize(baseFont, 6);
-        pageContent.setTextMatrix(360,725);
+        pageContent.setTextMatrix(360, 725);
         pageContent.showText(EmployeesList.getNieById(id));
         pageContent.endText();
         //Afiliación
         pageContent.beginText();
         pageContent.setFontAndSize(baseFont, 6);
-        pageContent.setTextMatrix(360,716);
+        pageContent.setTextMatrix(360, 716);
         pageContent.showText(EmployeesList.getAfiliacionById(id));
         pageContent.endText();
         //Year Month
         pageContent.beginText();
         pageContent.setFontAndSize(baseFont, 6);
-        pageContent.setTextMatrix(360,707);
+        pageContent.setTextMatrix(360, 707);
         String textMonth = billingYearMonth.getMonth().getDisplayName(style, spanishLocal);
         String capitalizedTextMonth = textMonth.substring(0, 1).toUpperCase() + textMonth.substring(1);
         pageContent.showText(capitalizedTextMonth + " " + year);
@@ -62,29 +66,28 @@ public class PdfReport {
         int lastWorkingDay;
         LocalDate lastWorkingDayDate = billingYearMonth.atDay(billingYearMonth.atEndOfMonth().getDayOfMonth());
         if (lastWorkingDayDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
-            lastWorkingDayDate.minusDays(1);
-        }else if (lastWorkingDayDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
-            lastWorkingDayDate.minusDays(2);
+            lastWorkingDayDate = lastWorkingDayDate.minusDays(1);
+        } else if (lastWorkingDayDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            lastWorkingDayDate =     lastWorkingDayDate.minusDays(2);
         }
         lastWorkingDay = lastWorkingDayDate.getDayOfMonth();
 
         pageContent.beginText();
         pageContent.setFontAndSize(baseFont, 6);
-        pageContent.setTextMatrix(63,306);
+        pageContent.setTextMatrix(63, 306);
         pageContent.showText("En Valencia, a " + lastWorkingDay + " de " + billingYearMonth.getMonth().getDisplayName(style, spanishLocal) + " de " + year);
         pageContent.endText();
 
         //signature
         Image signature = Image.getInstance("src/main/FilesRepository/signatures/" + id + ".png");
         signature.setAbsolutePosition(385, 330);
-        signature.scaleAbsolute(60,30);
+        signature.scaleAbsolute(60, 30);
         pageContent.addImage(signature);
 
 
-
         int yCoordinate = 672;
-        List<Integer> weekEnds = BillingPeriod.getWeekEnds(month,year);
-        List <Integer> publickHollidays = BillingPeriod.getPublickHollidaysNew(month,year);
+        List<Integer> weekEnds = BillingPeriod.getWeekEnds(month, year);
+        List<Integer> publickHollidays = BillingPeriod.getPublickHollidaysNew(month, year);
         for (LocalDate day = billingYearMonth.atDay(1);
              day.isBefore(billingYearMonth.atEndOfMonth())
                      || day.isEqual(billingYearMonth.atEndOfMonth());
@@ -119,7 +122,7 @@ public class PdfReport {
 
         pageContent.beginText();
         pageContent.setFontAndSize(baseFondBold, 6);
-        pageContent.setTextMatrix(173,393);
+        pageContent.setTextMatrix(173, 393);
         pageContent.showText(String.valueOf(totalHours));
         pageContent.endText();
         pdfStamper.close();

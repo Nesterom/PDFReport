@@ -13,12 +13,13 @@ import java.util.HashMap;
 public class EmployeesList {
     static String path = "src/main/FilesRepository/test.xlsx";
     static int sheetNumber = 0;
-    public static ArrayList getList(){
+
+    public static ArrayList getList() {
         ArrayList<HashMap> allEmployes = new ArrayList<>();
-        try{
+        try {
             FileInputStream file = new FileInputStream(new File(path));
             XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet =  workbook.getSheetAt(sheetNumber);
+            XSSFSheet sheet = workbook.getSheetAt(sheetNumber);
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 HashMap<String, String> oneEmpolye = new HashMap<String, String>();
@@ -35,12 +36,13 @@ public class EmployeesList {
         }
         return allEmployes;
     }
-    public static String getNameSurnameById (int i){
+
+    public static String getNameSurnameById(int i) {
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             FileInputStream file = new FileInputStream(new File(path));
             XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet =  workbook.getSheetAt(sheetNumber);
+            XSSFSheet sheet = workbook.getSheetAt(sheetNumber);
 
             Row row = sheet.getRow(i);
 
@@ -53,12 +55,13 @@ public class EmployeesList {
 
         return result.toString();
     }
-    public static String getAfiliacionById (int i){
+
+    public static String getAfiliacionById(int i) {
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             FileInputStream file = new FileInputStream(new File(path));
             XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet =  workbook.getSheetAt(sheetNumber);
+            XSSFSheet sheet = workbook.getSheetAt(sheetNumber);
 
             Row row = sheet.getRow(i);
 
@@ -70,12 +73,13 @@ public class EmployeesList {
 
         return result.toString();
     }
-    public static String getNieById (int i){
+
+    public static String getNieById(int i) {
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             FileInputStream file = new FileInputStream(new File(path));
             XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet =  workbook.getSheetAt(sheetNumber);
+            XSSFSheet sheet = workbook.getSheetAt(sheetNumber);
 
             Row row = sheet.getRow(i);
 
