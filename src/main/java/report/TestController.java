@@ -23,7 +23,7 @@ public class TestController {
         }
     }
 
-    @RequestMapping(value = "hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "EList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public TestResponse testMethod() {
         TestResponse result = new TestResponse();
         result.setAllEmployes(EmployeesList.getList());
